@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Raj Chat App</title>
+
+    <style>
+        .one{
+    /* border: 1px solid red; */
+    width: 600px;
+    padding: 5px;
+    margin: auto;
+}
+
+body{
+    background: linear-gradient(to left,grey,yellow,green);
+}
+.two{
+    text-align: left;
+}
+input{
+    display: inline-block;
+    border-start-end-radius: 3px;
+border:2px inset blue
+
+}
+button{
+    border: 2px outset brown;
+    color: green;
+    display: inline-block;
+    border-top-right-radius: 4px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+    </style>
+</head>
+
+<body>
+    <h1 style="text-align: center;font-family: 'Courier New', Courier, monospace;color: rgb(24, 22, 19);">Chat App</h1>
+    <h6 style="text-align: center;font-family: 'Courier New', Courier, monospace;color: rgb(24, 22, 19);color: blueviolet;">Share the url of this app to friends for real time communication!</h6>
+
+    <div class="one">
+        <div class="two"> <input type="text" id="message" placeholder="type your message...">
+         <button id="sendBtn">send</button>
+         <button style="color: red;" onclick="window.location.reload()">Stop</button></div>
+
+         <div id="display"></div>
+       
+    </div>
+    <p style="color: rgb(2, 28, 51);font-size: 9px;text-align: center;">Copyright &copy; 2023 | @Raj | All Rights Reserved.</p>
+    
+
+     <!-- you alse need to install socket on client side, server throws it-->
+    <script src="/socket.io/socket.io.js"></script>
+    
+    <script>
+        const socket=io()
+        const sendBtn=document.getElementById("sendBtn");
+        const messageInput=document.getElementById("message");
+        const incomming=document.getElementById("display");
+
+        socket.on("from-server",message=>{
+                const p=document.createElement("p");
+                p.style.background="white";
+                p.style.width="250px";
+                p.style.wordBreak="break-word"
+                p.style.fontFamily="'Trebuchet MS', sans-serif"
+                p.style.fontSize="10px"
+                p.style.padding="3px";
+                p.style.color="red"
+                p.style.borderRadius="3px"
+                p.innerText=message;
+                incomming.appendChild(p)
+        })
+
+        sendBtn.addEventListener("click",e=>{
+            const message= messageInput.value;
+            socket.emit("user-mess",message)
+
+        })
+    </script>
+</body>
+</html>
